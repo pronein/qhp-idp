@@ -1,12 +1,28 @@
 #!/usr/bin/env node
 
 /**
+ * Set build configuration (default to debug for now...)
+ * Will later change this to pull from configs or during build
+ * to define config to use.
+ */
+
+process.env.BUILD = 'debug';
+
+/**
  * Module dependencies.
  */
 
 var app = require('../app');
 var debug = require('debug')('qhp-idp:server');
 var http = require('http');
+
+if (process.env.BUILD === 'debug') {
+  /**
+   * We are in debug configuration, so lets launch swagger as well
+   */
+
+  require('../swaggerApp');
+}
 
 /**
  * Get port from environment and store in Express.
