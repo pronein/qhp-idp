@@ -29,7 +29,7 @@ itself can be a Node module or a function defined within a module (or both).
 
 ## ReactJs Makes Request
 
-This is anything from requesting the react.js file via an embedded <script /> tag to clicking an <a /> tag, which results in a request being made to an API to retrieve the logged in user's auth token or
+This is anything from requesting the react.js file via an embedded &lt;script /&gt; tag to clicking an &lt;a /&gt; tag, which results in a request being made to an API to retrieve the logged in user's auth token or
 profile information.
 
 ## \[IN\] NodeJs
