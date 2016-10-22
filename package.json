@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/server.js"
+    "test": "mocha ./tests --no-colors --reporter spec --ui bdd --recursive"
   },
   "main": "./bin/server.js",
   "dependencies": {
@@ -16,5 +17,9 @@
     "node-sass-middleware": "0.8.0",
     "serve-favicon": "~2.3.0",
     "swagger-express-mw": "0.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
   }
 }
