@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/server.js"
-    "test": "mocha ./tests --no-colors --reporter spec --ui bdd --recursive"
+    "start": "node ./bin/server.js",
+    "test": "NODE_ENV=test mocha ./tests --no-colors --reporter spec --ui bdd --recursive"
   },
   "main": "./bin/server.js",
   "dependencies": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "mocha": "^3.1.2"
   }
 }
