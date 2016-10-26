@@ -2,3 +2,6 @@ node_modules/
 *.css
 *.map
 .idea/
+*.project
+*.settings
+.tern-project
