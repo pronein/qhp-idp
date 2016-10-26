@@ -1,38 +1,57 @@
 'use strict';
 
+//Tests will not run unless an instance of mongod is running on the default port
+
 require('mocha');
+const expect = require('chai').expect;
 const mongoose = require('mongoose');
+const User = require('../../models/user').User;
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+mongoose.Promise = global.Promise; //This is required to get rid of the Deprecation warning
 
-chai.should();
-chai.use(chaiHttp);
+mongoose.connect('mongodb://localhost/testingdb');
 
-const user = require('../../models/user').User;
+describe('user', function () {
+  describe('schema', function () {
+    it('username is required', function (done) {
+      const target = new User({
+        email: 'marci.souza@deluxe.com',
+        phone: '954-573-0146',
+        password: '123456'
+      });
 
-//mongoose.Promise = require('q').Promise;
+      target.validate(function (err) {
+        expect(err.errors.username).to.exist;
+        done();
+      })
+    });
 
-describe('user', function(){
-	describe('schema', function(){
-		it('usename is required', function(done){
-			var newUser = new user ({
-			  username : 'msouza',
-			  email: 'marci.souza@deluxe.com',			  
-			  phone: '954-573-0146',
-			  password: '123456'
-			});
+    it('username is unique', function (done) {
+      //Save unique username
+      //
+      const seed = new User({
+        username: 'adam',
+        email: 'adam.schrader@deluxe.com',
+        phone: '123-456-7890',
+        password: 'abcd'
+      });
+      seed.save();
 
-			// save user to database
-			newUser.save(function(err) {
-				console.log(err);
-				err.errors.username.should.not.be.undefined;
-			    err.errors.username.kind.should.have.string('required');
-			}).then(function(){
-				done();
-			}, function() {
-				done();
-			});
-		})
-	});
+      //Attempt to insert a new user with duplicate username
+      //
+      const target = new User({
+        username: 'adam',
+        email: 't444708@deluxe.com',
+        phone: '111-111-1112',
+        password: 'edcba'
+      });
+
+      target.save(function (err) {
+        expect(err.code).to.eql(11000);
+        done();
+      }).then(function () {
+        seed.remove();
+      });
+    });
+  });
 });
