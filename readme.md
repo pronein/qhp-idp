@@ -32,15 +32,15 @@ Hi-Level Goal:
 * Implement front-end framework for web utilizing React.js
 
 Milestones:
-[x] Implement Swagger.io for API+Documentation
-[x] Implement Testing framework
-[ ] Implement ODM framework
-[ ] Implement basic authentication
-[ ] Implement user registration
-[ ] Implement IDP designation
-[ ] Implement IDP actionable - Presentations
-[ ] Implement Manager-Employee basic interactions
-[ ] Implement UX
+- [x] Implement Swagger.io for API+Documentation
+- [x] Implement Testing framework
+- [ ] Implement ODM framework
+- [ ] Implement basic authentication
+- [ ] Implement user registration
+- [ ] Implement IDP designation
+- [ ] Implement IDP actionable - Presentations
+- [ ] Implement Manager-Employee basic interactions
+- [ ] Implement UX
 
 ### Quarter 1 - 2017
 
@@ -52,10 +52,10 @@ Hi-Level Goal:
 * *TBD*
 
 Milestones:
-[ ] Implement IDP actionable - Conferences
-[ ] Implement IDP actionable - Courses
-[ ] Implement IDP actionable - Books
-[ ] *TBD*
+- [ ] Implement IDP actionable - Conferences
+- [ ] Implement IDP actionable - Courses
+- [ ] Implement IDP actionable - Books
+- [ ] *TBD*
 
 ### Quarter 2 - 2017
 
@@ -67,7 +67,7 @@ Hi-Level Goal:
 * *TBD*
 
 Milestones:
-[ ] *TBD*
+- [ ] *TBD*
 
 # Module Scope & Middleware
 
