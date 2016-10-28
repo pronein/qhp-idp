@@ -1,3 +1,74 @@
+# What is the Purpose of the IDP application?
+
+**Ultimately, the main purpose of this application is to learn about the MERN stack (MongoDb, ExpressJs, ReactJs, NodeJs), unit testing back/front-end javascript and working in distributed teams. That being said...** 
+
+Here at Deluxe we all have an individual development plan (IDP). This is a plan of attack we, as employees, make to pursue our desires in career advancement as well as personal advancement. Each manager can track this or handle this differently
+with you but the end result is the same. Determine your goal, set a plan of attack and achieve. This application will deal with the second part of these assertions, the plan of attack. Once you have determined what your individual goal is, it
+becomes up to you to make a plan to achieve said goal. Also, you should be tracking your progress toward this end. On Banker's Dashboard, we track this via an excel spreadsheet but a common theme has been found amongst our team. We generally achieve by doing one of the following:
+
+* Present at a conference
+* Present at a lunch and learn
+* Attend a conference
+* Read a book
+* Take code school/pluralsight courses
+* etc.
+
+These activities help us to advance towards our individual goals and since the excel way of tracking these has grown tiresome, the idea for this application has begun to gain weight. As briefly stated previously, the application will allow users
+to define their yearly IDP, add activities that they plan to achieve (working toward their goals) and track their progress through them. The application will also allow management to follow these paths and provide feedback and assistance in the
+completion of these goals.
+
+The application will be a generic app in the sense that it will be accessible via web browser or mobile device. Given the scale of this project vs. the context of a [QHP](http://) the implementation of this app will be spread out over several iterations.
+The road map for this can be found below. If you have any questions about the application, its current state or how you can participate in it's evolution do not hesitate to reach out to [me](mailto://adam.schrader@deluxe.com) or one of the active team members for more information.
+
+# Roadmap
+
+### Quarter 4 - 2016
+
+Team Status: Full
+Team: Adam Schrader, Marci Souza, Jharni Bisen
+
+Hi-Level Goal:
+* Implement back-end framework utilizing Node.js, Express.js, Mongoose.js, MongoDB
+* Implement front-end framework for web utilizing React.js
+
+Milestones:
+[x] Implement Swagger.io for API+Documentation
+[x] Implement Testing framework
+[ ] Implement ODM framework
+[ ] Implement basic authentication
+[ ] Implement user registration
+[ ] Implement IDP designation
+[ ] Implement IDP actionable - Presentations
+[ ] Implement Manager-Employee basic interactions
+[ ] Implement UX
+
+### Quarter 1 - 2017
+
+Team Status: Open
+Team: Adam Schrader, ...
+
+Hi-Level Goal:
+* Implement new actionables
+* *TBD*
+
+Milestones:
+[ ] Implement IDP actionable - Conferences
+[ ] Implement IDP actionable - Courses
+[ ] Implement IDP actionable - Books
+[ ] *TBD*
+
+### Quarter 2 - 2017
+
+Team Status: Open
+Team: Adam Schrader, ...
+
+Hi-Level Goal:
+* Make application accessible from mobile devices
+* *TBD*
+
+Milestones:
+[ ] *TBD*
+
 # Module Scope & Middleware
 
 Every javascript file in the qhp-idp project is a [Node module](https://nodejs.org/api/modules.html). They are self-contained and IIFE wrapped (courtesy of Node) pieces of code that handle a specific task or set of related functionality. These
