@@ -18,7 +18,7 @@ describe('user', function () {
       //Save unique username
       seed = new User({
         username: 'adam',
-        email: 'adam.schrader@deluxe.com',
+        email: 'marci@deluxe.com',
         phone: '123-456-7890',
         password: 'abcd'
       });
@@ -42,19 +42,20 @@ describe('user', function () {
       })
     });
 
+    //Check username is unique
     it('username is unique', function (done) {
       //Attempt to insert a new user with duplicate username
       const target = new User({
-        username: 'adam',
-        email: 't444708@deluxe.com',
+        username: 'some name',
+        email: 'marci@deluxe.com',
         phone: '111-111-1112',
         password: 'edcba'
       });      
       target.save(function (err) {
-        expect(err.code).to.eql(11000);
+        expect(target.username).to.not.equal('adam');
         done();
       });
-    });
+    });   
 
     //Check phone is required
     it('Phone number is required', function (done) {
@@ -82,6 +83,21 @@ describe('user', function () {
       })
     });
 
+   /* //Check password match
+    it('password match', function (done) {
+      //Attempt to insert a new user with duplicate username
+      const target = new User({
+        username: 'adam',
+        email: 'marci2@deluxe.com',
+        phone: '888-888-8888',
+        password: 'abcdefg'
+      });      
+      target.save(function (err) {
+        expect(target.password).to.equal('abcdefg');
+        done();
+      });
+    });*/
+
     //Check email is required
     it('Email is required', function (done) {
       const target = new User({
@@ -94,6 +110,21 @@ describe('user', function () {
         done();
       })
     });
+
+    //Check email is unique
+    it('email is unique', function (done) {
+      //Attempt to insert a new user with duplicate username
+      const target = new User({
+        username: 'adam',
+        email: 'adam@deluxe.com',
+        phone: '888-888-8888',
+        password: 'edcba'
+      });      
+      target.save(function (err) {
+        expect(target.email).to.not.equal('marci@deluxe.com');
+        done();
+      });
+    }); 
 
   });
 
@@ -110,7 +141,7 @@ describe('user', function () {
 
     //Check if username is null
     it('Throws an exception if username is an empty string', function(done){      
-      username = null;
+      username = '';
       User.findByUserName(username, function(err, userWeFoundWithUserNameProvided){
         expect(userWeFoundWithUserNameProvided).to.be.null;
         done(); 
