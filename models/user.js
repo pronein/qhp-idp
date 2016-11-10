@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
+var emailErrorMessage = 'This is not a valid email!';
 var userSchema = new Schema({
 	firstname: String,
 	lastname: String,
@@ -13,7 +14,7 @@ var userSchema = new Schema({
               var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
               return emailRegex.test(email);
           },
-          message: 'This is not a valid email!'
+          message: emailErrorMessage
         },
         required: [true, 'User email is required'],
         index: { unique: true } 
@@ -25,8 +26,8 @@ var userSchema = new Schema({
 	jobtitle: String,
 	phone: {
         type: String,
-        validate: { validator: function(v) {
-            return /\d{3}-\d{3}-\d{4}/.test(v);
+        validate: { validator: function(phone) {
+            return /\d{3}-\d{3}-\d{4}/.test(phone);
           },
           message: 'This is not a valid phone number!'
         },
@@ -63,6 +64,7 @@ userSchema.methods.comparePassword = function(attemptedPassword, callback) {
 var User = mongoose.model('User', userSchema);
 
 module.exports = {
-	User: User
+	User: User,
+	EMAILERRORMESSAGE : emailErrorMessage
 };
 

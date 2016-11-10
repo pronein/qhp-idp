@@ -3,24 +3,31 @@
 //Tests will not run unless an instance of mongod is running on the default port
 
 require('mocha');
+const bcrypt = require('bcrypt-nodejs');
 const expect = require('chai').expect;
+const should = require('chai').should();
 const mongoose = require('mongoose');
 const User = require('../../models/user').User;
+const EmailErrorMessage = require('../../models/user').EMAILERRORMESSAGE;
 
 mongoose.Promise = global.Promise; //This is required to get rid of the Deprecation warning
 
 mongoose.connect('mongodb://localhost/testingdb');
 
 describe('user', function () {
-  describe('schema', function () {
+
     var seed;
+    var seedUserName = 'adam';
+    var seedEmail = 'adam@deluxe.com';
+    var seedPassword = 'abcdefg';
+
     beforeEach(function(){
       //Save unique username
       seed = new User({
-        username: 'adam',
-        email: 'marci@deluxe.com',
+        username: seedUserName,
+        email: seedEmail,
         phone: '123-456-7890',
-        password: 'abcd'
+        password: seedPassword
       });
       seed.save();
     });
@@ -29,7 +36,8 @@ describe('user', function () {
       seed.remove();
     });
 
-    //Check username is required
+  describe('schema', function () {
+
     it('username is required', function (done) {
       const target = new User({
         email: 'marci.souza@deluxe.com',
@@ -42,22 +50,20 @@ describe('user', function () {
       })
     });
 
-    //Check username is unique
     it('username is unique', function (done) {
       //Attempt to insert a new user with duplicate username
       const target = new User({
-        username: 'some name',
-        email: 'marci@deluxe.com',
+        username: seedUserName,
+        email: seedEmail + 's',
         phone: '111-111-1112',
         password: 'edcba'
       });      
       target.save(function (err) {
-        expect(target.username).to.not.equal('adam');
+        expect(err.code).to.eql(11000);
         done();
       });
     });   
 
-    //Check phone is required
     it('Phone number is required', function (done) {
       const target = new User({
         username: 'xxxx',
@@ -70,7 +76,32 @@ describe('user', function () {
       })
     });
 
-    //Check password is required
+    it('Phone number is not valid', function(done){
+     const target = new User({
+         username: 'Marci',
+         phone: '9999999',
+         email: 'email@test.com',
+         password: 'dddyyyy'
+       });
+       target.validate(function(err){
+           expect(err.errors.phone.message).to.equal('This is not a valid phone number!');
+           done();
+       });
+    });
+
+    it('Phone number is valid', function(done){
+     const target = new User({
+         username: 'Marci',
+         phone: '999-999-9999',
+         email: 'email@test.com',
+         password: 'dddyyyy'
+       });
+       target.validate(function(err){
+           expect(err).to.equal(null);
+           done();
+       });
+    });
+
     it('Password is required', function (done) {
       const target = new User({
         username: 'Myname',
@@ -83,22 +114,6 @@ describe('user', function () {
       })
     });
 
-   /* //Check password match
-    it('password match', function (done) {
-      //Attempt to insert a new user with duplicate username
-      const target = new User({
-        username: 'adam',
-        email: 'marci2@deluxe.com',
-        phone: '888-888-8888',
-        password: 'abcdefg'
-      });      
-      target.save(function (err) {
-        expect(target.password).to.equal('abcdefg');
-        done();
-      });
-    });*/
-
-    //Check email is required
     it('Email is required', function (done) {
       const target = new User({
         username: 'Some name',
@@ -111,50 +126,114 @@ describe('user', function () {
       })
     });
 
-    //Check email is unique
     it('email is unique', function (done) {
-      //Attempt to insert a new user with duplicate username
       const target = new User({
-        username: 'adam',
-        email: 'adam@deluxe.com',
+        username: seedUserName + 'm',
+        email: seedEmail,
         phone: '888-888-8888',
         password: 'edcba'
       });      
       target.save(function (err) {
-        expect(target.email).to.not.equal('marci@deluxe.com');
+        expect(err.code).to.eql(11000);
         done();
       });
     }); 
 
+    it('email is not valid', function(done){
+     const target = new User({
+         username: 'Myname',
+         phone: '777-777-0101',
+         email: 'notvalid@test',
+         password: 'dddyyyy'
+       });
+       target.validate(function(err){
+           expect(err.errors.email.message).to.equal(EmailErrorMessage);
+           done();
+       });
+    });
+
+    it('email is valid', function(done){
+     const target = new User({
+         username: 'Myname',
+         phone: '777-777-0101',
+         email: 'validemail@test.com',
+         password: 'dddyyyy'
+       });
+       target.validate(function(err){
+           expect(err).to.equal(null);
+           done();
+       });
+    });
+  });
+
+  describe('pre-save', function() {
+
+    var password;
+    it('hash the password if password is new',function(done){
+     const beforeSave = new User({
+        username: seedUserName + 'hh',
+        email: 'errr@test.com',
+        phone: '123-456-7890',
+        password: seedPassword
+      });
+      beforeSave.save(function(){
+        expect(seedPassword).to.not.equal(beforeSave.password);
+        done();
+      });
+    });
+
+    it('hash the password if password is modified', function(done){
+        var password = seedPassword + 'g';
+        seed.password = password;
+        seed.save(function(){
+           expect(password).to.not.equal(seed.password);
+           done();
+       });
+    });
+
+    /*it.only('does not hash the password when password not modified', function(done){
+        seed.password = password;
+        seed.save(function(err, password){
+           expect(password).to.equal(seed.password);
+           done();
+       });
+    });*/
+  });
+
+  describe('comparePassword', function() {
+
+    it('is true if attempted password matches the users password', function(done) {
+        seed.comparePassword(seedPassword, function(isMatch){
+            expect(isMatch).to.be.equal(true);
+            done();
+        });
+    });
+
+    it('is false if attempted password does not match the users password', function(done) {
+        var password = seedPassword + 'a';
+        seed.comparePassword(password, function(isMatch){
+            expect(isMatch).to.be.equal(false);
+            done();
+        });
+    });
   });
 
   describe('findByUserName', function(){
     var username;
-    //Check if username is not an empty string and doesnt exist
-    it('Returns null if username is not an empty string and doesnt exist', function(done){
+    it('sets user to null in callback if username is not found', function(done){
       username = 'usernamedoesntexist';
-      User.findByUserName(username, function(err, userWeFoundWithUserNameProvided){  
-        expect(userWeFoundWithUserNameProvided).to.not.exist;
-        done(); 
-      });
-    });
-
-    //Check if username is null
-    it('Throws an exception if username is an empty string', function(done){      
-      username = '';
       User.findByUserName(username, function(err, userWeFoundWithUserNameProvided){
         expect(userWeFoundWithUserNameProvided).to.be.null;
-        done(); 
+        done();
       });
     });
 
-    //Check if username exists
-    it('Returns a user when the username exists', function(done){
-      username='marci';
-      User.findByUserName(username, function(err){        
-        expect(username).to.equal('marci'); 
-        done(); 
-      });     
+    it('sets user in callback if username is found', function(done){
+      username = seedUserName;
+      User.findByUserName(username, function(err, userWeFoundWithUserNameProvided){
+        expect(userWeFoundWithUserNameProvided.username).to.equal(username);
+        done();
+      });
     });
 
   });
