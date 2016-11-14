@@ -191,13 +191,16 @@ describe('user', function () {
        });
     });
 
-    /*it.only('does not hash the password when password not modified', function(done){
-        seed.password = password;
-        seed.save(function(err, password){
-           expect(password).to.equal(seed.password);
-           done();
-       });
-    });*/
+    it('does not hash the password when password not modified', function(done){
+        User.findByUserName(seed.username, function(err, target){
+            target.username = seedUserName + 'ss';
+            var beforeSavePassword = target.password;
+            target.save(function(){
+                expect(beforeSavePassword).to.be.equal(target.password);
+                done();
+            });
+        });
+    });
   });
 
   describe('comparePassword', function() {
