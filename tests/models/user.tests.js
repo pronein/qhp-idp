@@ -8,7 +8,8 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const mongoose = require('mongoose');
 const User = require('../../models/user').User;
-const EmailErrorMessage = require('../../models/user').EMAILERRORMESSAGE;
+const EmailErrorMessage = require('../../models/user').EMAIL_ERROR_MESSAGE;
+const PhoneErrorMessage = require('../../models/user').PHONE_ERROR_MESSAGE;
 
 mongoose.Promise = global.Promise; //This is required to get rid of the Deprecation warning
 
@@ -84,7 +85,7 @@ describe('user', function () {
          password: 'dddyyyy'
        });
        target.validate(function(err){
-           expect(err.errors.phone.message).to.equal('This is not a valid phone number!');
+           expect(err.errors.phone.message).to.equal(PhoneErrorMessage);
            done();
        });
     });

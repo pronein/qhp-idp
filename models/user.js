@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var emailErrorMessage = 'This is not a valid email!';
+var phoneErrorMessage = 'This is not a valid phone number!';
 var userSchema = new Schema({
 	firstname: String,
 	lastname: String,
@@ -29,7 +30,7 @@ var userSchema = new Schema({
         validate: { validator: function(phone) {
             return /\d{3}-\d{3}-\d{4}/.test(phone);
           },
-          message: 'This is not a valid phone number!'
+          message: phoneErrorMessage
         },
         required: [true, 'User phone number required']
       },
@@ -65,6 +66,7 @@ var User = mongoose.model('User', userSchema);
 
 module.exports = {
 	User: User,
-	EMAILERRORMESSAGE : emailErrorMessage
+	EMAIL_ERROR_MESSAGE : emailErrorMessage,
+	PHONE_ERROR_MESSAGE : phoneErrorMessage
 };
 

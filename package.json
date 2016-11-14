@@ -16,7 +16,6 @@
     "express": "~4.13.4",
     "mongoose": "~4.6.4",
     "morgan": "~1.7.0",
-    "node-gyp": "^3.4.0",
     "node-sass-middleware": "0.8.0",
     "serve-favicon": "~2.3.0",
     "swagger-express-mw": "0.1.0"
