@@ -169,3 +169,26 @@ The client now has the response and will process the result as necessary (displa
 >  *: 401 is misleading here as if there was an issue with authentication/authorization, many of the former steps would have been skipped.
 >
 > **: This is a contextual "success". It does not mean that the data was necessarily deleted from the system, only that the request responded with a 200 success, so there were no issues on the server.
+
+# Running the application
+
+## npm
+
+### start
+
+### test
+
+## swagger
+
+### install
+
+Prepare your environment by running `npm install -g swagger`
+
+### swagger project start
+
+This will start the application using swagger to allow for testing/editing the api via the swagger editor. Use --mock option to use mock controllers found in ./api/mocks
+
+### swagger project edit
+
+This will show you the swagger api editor
+
