@@ -24,7 +24,7 @@ paths:
     get:
       description: Returns the user found with the given username.
       # used as the method name of the controller
-      operationId: getUserByUserName
+      operationId: getUserByUsername
       parameters:
         - name: username
           in: path
@@ -49,6 +49,16 @@ definitions:
   UserResponse:
     required:
       - firstName
+      - lastName
+      - username
+      - manager
+      - email
+      - dateOfHire
+      - team
+      - project
+      - office
+      - jobTitle
+      - phone
     properties:
       firstName:
         type: string
