@@ -18,25 +18,25 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
+  /user/{username}:
     # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+    x-swagger-router-controller: userController
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns the user found with the given username.
       # used as the method name of the controller
-      operationId: hello
+      operationId: getUserByUserName
       parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
+        - name: username
+          in: path
+          description: The username for the user to retrieve
+          required: true
           type: string
       responses:
         "200":
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
+            $ref: "#/definitions/UserResponse"
         # responses may fall through to errors
         default:
           description: Error
@@ -46,11 +46,31 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
+  UserResponse:
     required:
-      - message
+      - firstName
     properties:
-      message:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      username:
+        type: string
+      manager:
+        type: string
+      email:
+        type: string
+      dateOfHire:
+        type: string
+      team:
+        type: string
+      project:
+        type: string
+      office:
+        type: string
+      jobTitle:
+        type: string
+      phone:
         type: string
   ErrorResponse:
     required:
