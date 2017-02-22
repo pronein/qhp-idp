@@ -27,9 +27,14 @@ function registerUser_mock(req, res, next) {
     res.status(422).send({
       username: user.username,
       message: 'There was a problem processing your request. [Email not unique]'
-    })
+    });
   } else if(user.password.replace(/\s/g, '').length === 0) {
     //[422] password is empty string
+    console.warn('Password is empty.');
+    res.status(422).send({
+      username: user.username,
+      message: 'There was a problem processing your request. [Password is empty]'
+    });
   } else {
     //[500] default server error
   }
