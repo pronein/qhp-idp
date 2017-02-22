@@ -16,6 +16,11 @@ function registerUser_mock(req, res, next) {
     });
   } else if(user.username[0] === 'k') {
     //[422] username not unique
+    console.warn('Username is not unique.');
+    res.status(422).send({
+      username: user.username,
+      message: 'There was a problem processing your request.'
+    })
   } else if(!user.email.contains('@deluxe.com')){
     //[422] email not unique
   } else if(user.password.replace(/\s/g, '').length === 0) {

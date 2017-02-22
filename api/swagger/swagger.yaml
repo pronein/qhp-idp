@@ -32,11 +32,11 @@ paths:
             $ref: "#/definitions/UserRegistrationRequest"
       responses:
         "201":
-          description: Success
+          description: Created
           schema:
             $ref: "#/definitions/UserRegistrationResponse"
         "422":
-          description: Invalid Request Data
+          description: Unprocessable Entity
           schema:
             $ref: "#/definitions/UserRegistrationResponse"
         default:
