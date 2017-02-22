@@ -19,10 +19,15 @@ function registerUser_mock(req, res, next) {
     console.warn('Username is not unique.');
     res.status(422).send({
       username: user.username,
-      message: 'There was a problem processing your request.'
+      message: 'There was a problem processing your request. [Username not unique]'
     })
-  } else if(!user.email.contains('@deluxe.com')){
+  } else if(!user.email.endsWith('@deluxe.com')){
     //[422] email not unique
+    console.warn('Email is not unique.');
+    res.status(422).send({
+      username: user.username,
+      message: 'There was a problem processing your request. [Email not unique]'
+    })
   } else if(user.password.replace(/\s/g, '').length === 0) {
     //[422] password is empty string
   } else {
