@@ -14,7 +14,17 @@ var allowCors = function (req, res, next){
 app.use(allowCors);
 
 var swaggerConfig = {
-  appRoot: __dirname
+  appRoot: __dirname,
+  swaggerSecurityHandlers: {
+    'api_key': function(req, authOrSecDefinition, scopesOrApiKey, cb) {
+      if (scopesOrApiKey && scopesOrApiKey.startsWith('Bearer') &&
+      scopesOrApiKey.split(' ').length === 2) {
+        cb(null, {testDataFromAuthCb: 'testdatahere'});
+      } else {
+        cb(new Error('Access Denied'));
+      }
+    }
+  }
 };
 
 SwaggerExpress.create(swaggerConfig, function (err, swaggerExpress) {
