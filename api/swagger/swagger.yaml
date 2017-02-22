@@ -18,26 +18,27 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
+  /user:
+    x-swagger-router-controller: userController
+    post:
+      description: Register a new user account
+      operationId: registerUser
       parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+        - name: user
+          in: body
+          description: User record to register
+          required: true
+          schema:
+            $ref: "#/definitions/UserRegistrationRequest"
       responses:
-        "200":
+        "201":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
+            $ref: "#/definitions/UserRegistrationResponse"
+        "422":
+          description: Invalid Request Data
+          schema:
+            $ref: "#/definitions/UserRegistrationResponse"
         default:
           description: Error
           schema:
@@ -46,11 +47,48 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
+  UserRegistrationRequest:
     required:
+      - username
+      - firstName
+      - lastName
+      - email
+      - password
+    properties:
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+        format: password
+      manager:
+        type: string
+      dateOfHire:
+        type: string
+        format: date
+      team:
+        type: string
+      project:
+        type: string
+      office:
+        type: string
+      jobTitle:
+        type: string
+      phone:
+        type: string
+  UserRegistrationResponse:
+    required:
+      - username
       - message
     properties:
       message:
+        type: string
+      username:
         type: string
   ErrorResponse:
     required:
