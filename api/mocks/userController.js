@@ -37,5 +37,9 @@ function registerUser_mock(req, res, next) {
     });
   } else {
     //[500] default server error
+    console.warn('Internal server error (default).');
+    res.status(500).send({
+      message: 'There was an internal server error.'
+    });
   }
 }
