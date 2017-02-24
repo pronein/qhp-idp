@@ -4,6 +4,11 @@ info:
   title: Quick Hit Projects - Independent Development Plan
 # during dev, should point to your local machine
 host: localhost:10010
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header
 # basePath prefixes all resource paths
 basePath: /api
 #
@@ -18,26 +23,34 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
+  /user/{username}:
+    x-swagger-router-controller: userController
+    put:
+      description: Update a set of a given user information
+      security:
+        - api_key: []
+      operationId: updateUser
       parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
+        - name: username
           type: string
+          in: path
+          description: username to update
+          required: true
+        - name: user
+          in: body
+          description: user data to update
+          required: true
+          schema:
+            $ref: "#/definitions/UserUpdateRequest"
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
+            $ref: "#/definitions/UserResponse"
+        "422":
+          description: User does not exist
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         default:
           description: Error
           schema:
@@ -46,12 +59,63 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
-    required:
-      - message
+  UserUpdateRequest:
     properties:
-      message:
+      firstName:
         type: string
+      lastName:
+        type: string
+      manager:
+        type: string
+      email:
+        type: string
+      dateOfHire:
+        type: string
+        format: date
+      team:
+        type: string
+      project:
+        type: string
+      office:
+        type: string
+      jobTitle:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+        format: password
+      lastSignIn:
+        type: string
+        format: date
+  UserResponse:
+    properties:
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      manager:
+        type: string
+      email:
+        type: string
+      dateOfHire:
+        type: string
+        format: date
+      team:
+        type: string
+      project:
+        type: string
+      office:
+        type: string
+      jobTitle:
+        type: string
+      phone:
+        type: string
+      lastSignIn:
+        type: string
+        format: date
   ErrorResponse:
     required:
       - message
