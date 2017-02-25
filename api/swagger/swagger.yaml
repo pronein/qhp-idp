@@ -43,10 +43,8 @@ paths:
           schema:
             $ref: "#/definitions/UserUpdateRequest"
       responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/UserResponse"
+        "204":
+          description: Success - no content
         "422":
           description: User does not exist
           schema:

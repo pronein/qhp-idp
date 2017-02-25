@@ -5,5 +5,12 @@ module.exports = {
 };
 
 function updateUser_mock(req, res, next) {
-  res.status(304).send({});
+  var username = req.swagger.params.username.value;
+  var user = req.swagger.params.user.value;
+
+  if (username !== 'bad_username') {
+    res.sendStatus(204);
+  } else {
+    res.status(422).send({message: 'Invalid username.'});
+  }
 }
